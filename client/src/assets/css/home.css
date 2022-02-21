@@ -1,0 +1,8 @@
+.donat-chart{
+    /* background-color: red; */
+    max-width: 500px;
+}
+
+.donat-chart .card-header h3{
+    color: red;
+}

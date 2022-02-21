@@ -1,0 +1,23 @@
+.table-card{
+    /* max-height: 300px;
+    overflow: scroll; */
+}
+
+.header-wallet{
+    display: flex;
+    flex-direction: row !important;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: none !important;
+}
+
+.total-balance{
+    float: right;
+    margin-right: 10px;
+    color: rgb(184, 187, 187);
+}
+
+.total-balance span{
+    font-size: 12px;
+}
+

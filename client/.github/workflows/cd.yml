@@ -1,0 +1,38 @@
+name: upload spa to aws s3
+on:
+  push:
+    branches:
+     - main
+env:
+  BUCKET_NAME: "client"
+  REGION: "east-1"
+  CLOUDFRONT_ID: "35424363468K3G"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v1
+      
+      - name: Configure AWS Credentials 
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{env.REGION}}
+      
+      - name: Build Repository
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - run: npm install
+      - run: yarn build
+      
+      - name: Deploy on AWS S3
+        run: |
+          aws s3 sync ./build s3://${{env.BUCKET_NAME}} --delete
+     
+      - name: Clear cache on CloudFront
+        run: aws cloudfront create-invalidation --distribution-id ${{env.CLOUDFRONT_ID}} --paths "/*"
